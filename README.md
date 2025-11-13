@@ -84,9 +84,9 @@ $$
 
 ## 🔹 Interpretation
 
-- Model (c) [$x_1$ + $x_2$]: unbiased, less stable due to multicollinearity  
-- Model (d) [$x_1$ only]: more accurate, stable, captures main signal  
-- Model (e) [$x_2$ only]: biased due to omitted variable ($x_1$)  
+- Model (c) [ $x_1$ + $x_2$]: unbiased, less stable due to multicollinearity  
+- Model (d) [ $x_1$ only]: more accurate, stable, captures main signal  
+- Model (e) [ $x_2$ only]: biased due to omitted variable ($x_1$)  
 - Highlights trade-off between **model correctness** and **coefficient stability**
 
 ---
