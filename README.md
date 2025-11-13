@@ -1,10 +1,6 @@
-# Collinearity-Analysis-in-Linear-Regression
-This project explores the effect of collinearity in multiple linear regression using simulated data.
+# 📊 Collinearity Analysis in Linear Regression
+This project explores **collinearity** in multiple linear regression using simulated data, examining its effect on coefficient estimates, hypothesis testing, and model interpretation.
 
-
-# 📈 Collinearity Analysis in Linear Regression
-
-This project explores the effect of **collinearity** in multiple linear regression using simulated data.
 
 ---
 
@@ -13,62 +9,112 @@ To demonstrate how correlated predictors affect regression estimates, hypothesis
 
 ---
 
-## 🔹 Overview
+## 🔹 Linear Model
 
-- A dataset was simulated with two predictors, `x1` and `x2`, and a response variable `y` defined by:
+The simulated model is:
 
-\[
+$$
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \varepsilon
+$$
+
+Where:  
+- $\beta_0 = 2$ (intercept)  
+- $\beta_1 = 2$ (coefficient of $x_1$)  
+- $\beta_2 = 0.3$ (coefficient of $x_2$)  
+- $\varepsilon \sim \mathcal{N}(0, \sigma^2)$  
+
+Full model:
+
+$$
 y = 2 + 2x_1 + 0.3x_2 + \varepsilon
-\]
-
-- `x2` is partially dependent on `x1`, introducing **multicollinearity**.  
-- The analysis examines how collinearity affects regression coefficients, statistical significance, and model interpretation.
+$$
 
 ---
 
-## 🔹 Analysis Steps
+## 🔹 Correlation Analysis
 
-1. **Correlation Analysis**  
-   - Calculated the correlation between `x1` and `x2`.  
-   - Visualized their relationship using a scatterplot.
+- Correlation between $x_1$ and $x_2$: **0.7723**  
+- Scatterplot shows strong positive correlation (collinearity).
 
-2. **Multiple Regression (`y ~ x1 + x2`)**  
-   - Fitted a multiple linear regression model.  
-   - Estimated coefficients were compared to the true values (2, 2, 0.3).  
-   - Hypotheses tested:  
-     - \( H_0: \beta_1 = 0 \)  
-     - \( H_0: \beta_2 = 0 \)
+---
 
-3. **Simple Regressions**  
-   - Fitted models using only `x1` and only `x2`.  
-   - Observed the effects of collinearity on coefficient estimates and significance.
+## 🔹 Multiple Regression (`y ~ x1 + x2`)
 
-4. **Influential Observation Analysis**  
-   - Introduced one mismeasured data point.  
-   - Re-fitted all models to assess the effect.  
-   - Determined whether the new observation acted as an **outlier**, **high-leverage point**, or **both**.
+Estimated model:
+
+$$
+\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 x_2
+$$
+
+| Coefficient | True Value | Estimated Value | Interpretation |
+|------------|------------|----------------|----------------|
+| $\beta_0$ | 2.0        | 1.9579         | Very close to true value |
+| $\beta_1$ | 2.0        | 1.6154         | Underestimated due to collinearity |
+| $\beta_2$ | 0.3        | 0.9428         | Overestimated due to collinearity |
+
+**Hypothesis Testing:**  
+- $H_0: \beta_1 = 0$ → p-value < 0.05 → **reject null** → $x_1$ is significant  
+- $H_0: \beta_2 = 0$ → p-value > 0.05 → **fail to reject** → $x_2$ is not significant when $x_1$ is included
+
+---
+
+## 🔹 Simple Regression Models
+
+**1. Using only $x_1$:**
+
+$$
+\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 = 1.9371 + 2.0771 \cdot x_1
+$$
+
+- Close to true coefficients  
+- Captures linear relationship accurately  
+- p-value for $\hat{\beta}_1$ < 0.05 → significant predictor
+
+**2. Using only $x_2$:**
+
+$$
+\hat{y} = \hat{\beta}_0 + \hat{\beta}_2 x_2 = 2.3239 + 2.9103 \cdot x_2
+$$
+
+- p-value < 0.05 → significant  
+- Suffers from **omitted variable bias** because $x_2$ is highly correlated with $x_1$  
+- Estimated effect of $x_2$ is **biased**  
+
+---
+
+## 🔹 Interpretation
+
+- Model (c) [$x_1$ + $x_2$]: unbiased, less stable due to multicollinearity  
+- Model (d) [$x_1$ only]: more accurate, stable, captures main signal  
+- Model (e) [$x_2$ only]: biased due to omitted variable ($x_1$)  
+- Highlights trade-off between **model correctness** and **coefficient stability**
+
+---
+
+## 🔹 Influence of New Observation
+
+Added observation: $(x_1=0.1, x_2=0.8, y=6)$
+
+| Model | Observation Type | Influence |
+|-------|----------------|-----------|
+| $y \sim x_1 + x_2$ | Outlier & High-Leverage | Large influence on model |
+| $y \sim x_1$      | Outlier only       | Moderate influence |
+| $y \sim x_2$      | Outlier & High-Leverage | Large influence |
+
+- The new point is **most influential** in models including $x_2$, less so for $x_1$-only model.
 
 ---
 
 ## 🔹 Key Insights
 
-- Strong correlation between predictors inflates variance of estimated coefficients.  
-- Collinearity can lead to conflicting significance results between single and multiple regressions.  
-- A single influential observation can heavily affect regression results, particularly in models with multicollinearity.
+- Strong correlation between predictors inflates standard errors and distorts estimates  
+- Omitting variables in correlated datasets causes **bias**  
+- Single influential points can dramatically alter regression outcomes, especially with multicollinearity
 
 ---
 
 ## 🔹 Conclusion
 
-This analysis highlights the importance of diagnosing **multicollinearity** and identifying **influential points** in regression modeling to ensure reliable and interpretable results.
-
----
-
-## 🔹 Dependencies
-
-- Python 3.x  
-- NumPy  
-- matplotlib / seaborn  
-- statsmodels  
-
-
+- Collinearity affects regression estimates and hypothesis tests  
+- Model choice and variable inclusion are crucial to balance **accuracy** and **stability**  
+- Diagnostic checks for multicollinearity and influential points are essential in regression analysis
