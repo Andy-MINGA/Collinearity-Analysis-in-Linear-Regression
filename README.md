@@ -71,10 +71,4 @@ This analysis highlights the importance of diagnosing **multicollinearity** and 
 - matplotlib / seaborn  
 - statsmodels  
 
----
-
-## 🔹 Files
-
-- `collinearity_analysis.ipynb` — notebook with full analysis and visualizations  
-- `README.md` — project overview and instructions
 
